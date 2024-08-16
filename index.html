@@ -1,17 +1,56 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/tesseract.js@v2.0.0-beta.1/dist/tesseract.min.js"
-    ></script>
-    <link rel="stylesheet" href="main.css" />
-    <script src="app.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capture Image and Extract Text</title>
+    <!-- Include the latest version of Tesseract.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <!-- Material-UI Core -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/material-ui.min.css"
+    />
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <video id="player" controls></video>
-    <button id="capture">Capture</button>
-    <canvas id="snapshot" width="320" height="240"></canvas>
-    <textarea id="result" style="width: 640px; height: 240px"></textarea>
+    <h1>SmartSheet</h1>
+    <div class="container">
+      <video id="video" width="100%" height="auto" autoplay></video>
+      <button id="capture" style="margin-top: 10px">Capture</button>
+      <canvas
+        id="canvas"
+        width="300"
+        height="300"
+        style="display: none"
+      ></canvas>
+      <div>
+        <p>Captured Image:</p>
+        <img id="capturedImage" alt="Captured Image" />
+      </div>
+      <div>
+        <p>Extracted Text:</p>
+        <textarea
+          id="extractedText"
+          style="width: 320px; height: 220px"
+        ></textarea>
+      </div>
+      <button id="upload" style="margin-top: 10px; display: none">
+        Upload to Sheet
+      </button>
+      <div id="loading">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+      </div>
+    </div>
+
+    <!-- Include your custom JavaScript file -->
+    <script src="script.js"></script>
   </body>
 </html>
