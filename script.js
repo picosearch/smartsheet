@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const extractedTextElement = document.getElementById("extractedText");
   const loadingElement = document.getElementById("loading");
   const toggleCameraButton = document.getElementById("toggleCamera");
-  let usingFrontCamera = true;
+  let usingFrontCamera = false;
 
   // Constraints for the camera
   const constraints = {
     video: {
-      facingMode: "user" // Default to front-facing camera
+      facingMode: { exact: "environment" } // Default to rear-facing camera
     }
   };
 
