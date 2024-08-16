@@ -18,15 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const switchCamera = () => {
-    usingFrontCamera = !usingFrontCamera;
+    console.log("switchCamera ...");
+    usingFrontCamera = usingFrontCamera;
     constraints.video.facingMode = usingFrontCamera
       ? "user"
       : { exact: "environment" };
-
+    console.log("constraints ...", constraints);
     // Stop the current video stream
-    if (stream) {
-      stream.getTracks().forEach((track) => track.stop());
-    }
+    // if (stream) {
+    //   stream.getTracks().forEach((track) => track.stop());
+    // }
 
     // Start the new stream with the updated constraints
     navigator.mediaDevices
@@ -42,14 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initialize the camera
-  switchCamera();
+  // switchCamera();
 
   // Event listener for the toggle camera button
   toggleCameraButton.addEventListener("click", switchCamera);
 
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
-    .getUserMedia({ video: true })
+    .getUserMedia(constraints)
     .then((stream) => {
       video.srcObject = stream;
       video.play();
