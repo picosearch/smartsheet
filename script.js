@@ -7,6 +7,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const capturedImageElement = document.getElementById("capturedImage");
   const extractedTextElement = document.getElementById("extractedText");
   const loadingElement = document.getElementById("loading");
+  const toggleCameraButton = document.getElementById("toggleCamera");
+  let usingFrontCamera = true;
+
+  // Constraints for the camera
+  const constraints = {
+    video: {
+      facingMode: "user" // Default to front-facing camera
+    }
+  };
+
+  const switchCamera = () => {
+    usingFrontCamera = !usingFrontCamera;
+    constraints.video.facingMode = usingFrontCamera
+      ? "user"
+      : { exact: "environment" };
+
+    // Stop the current video stream
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+
+    // Start the new stream with the updated constraints
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((newStream) => {
+        stream = newStream;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch((err) => {
+        console.error("Error accessing camera: ", err);
+      });
+  };
+
+  // Initialize the camera
+  switchCamera();
+
+  // Event listener for the toggle camera button
+  toggleCameraButton.addEventListener("click", switchCamera);
 
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
