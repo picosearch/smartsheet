@@ -6,17 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const context = canvas.getContext("2d");
   const capturedImageElement = document.getElementById("capturedImage");
   const extractedTextElement = document.getElementById("extractedText");
-  const loadingElement = document.getElementById("loading");
   const clickSound = document.getElementById("click-sound");
   const processButton = document.getElementById("process_btn");
   const uploadButton = document.getElementById("upload");
-  const contrastSlider = document.getElementById("contrast-slider");
+  const rocketIcon = document.getElementById("rocket");
+  // const contrastSlider = document.getElementById("contrast-slider");
 
   // Adjust contrast of the captured image
-  contrastSlider.addEventListener("input", () => {
-    const contrastValue = contrastSlider.value;
-    capturedImage.style.filter = `contrast(${contrastValue}%)`;
-  });
+  // contrastSlider.addEventListener("input", () => {
+  //   const contrastValue = contrastSlider.value;
+  //   capturedImage.style.filter = `contrast(${contrastValue}%)`;
+  // });
 
   // Constraints for the camera
   const constraints = {
@@ -62,7 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   processButton.addEventListener("click", () => {
     // Show loading spinner
-    loadingElement.style.display = "block";
+    // loadingElement.style.display = "block";
+    rocketIcon.className = "fas fa-spin fa-arrows-rotate";
 
     // Use Tesseract.js to extract text from the image
     Tesseract.recognize(capturedImageElement, "eng", {
@@ -79,7 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .finally(() => {
         // Hide loading spinner
-        loadingElement.style.display = "none";
+        // loadingElement.style.display = "none";
+        // rocketIcon.style.display = "block";
+        rocketIcon.className = "fas fa-rocket";
       });
   });
 
@@ -165,7 +168,6 @@ function processByOpenCV(capturedImage) {
 document.addEventListener("DOMContentLoaded", () => {
   // Get references to HTML elements
   const video = document.getElementById("video");
-
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
     .getUserMedia({ video: true })
