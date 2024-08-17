@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
       text.trim() !== "Error during text recognition."
     ) {
       // Perform API request to upload the data
-      fetch("https://example.com/api/upload", {
+      fetch("https://smartsheetdata.glitch.me/upload", {
         // Replace with your API endpoint
         method: "POST",
         headers: {
