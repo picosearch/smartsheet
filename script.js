@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const processButton = document.getElementById("process_btn");
   const uploadButton = document.getElementById("upload");
   const rocketIcon = document.getElementById("rocket");
+  const copyButton = document.getElementById("copy-button");
 
   // Constraints for the camera
   const constraints = {
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     captureButton.style.display = "block";
     retakeButton.style.display = "none";
     capturedImageElement.style.display = "none";
+    copyButton.style.display = "none";
   });
   // Capture the image from the video stream and use Tesseract.js to extract text
   captureButton.addEventListener("click", () => {
@@ -60,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     captureButton.style.display = "none";
     retakeButton.style.display = "block";
     capturedImageElement.style.display = "block";
+    copyButton.style.display = "block";
     processButton.style.display = "block";
   });
 
@@ -87,6 +90,23 @@ document.addEventListener("DOMContentLoaded", () => {
         // rocketIcon.style.display = "block";
         rocketIcon.className = "fas fa-rocket";
       });
+  });
+
+  // Copy text to clipboard
+  copyButton.addEventListener("click", () => {
+    const textToCopy = extractedTextElement.textContent;
+    if (textToCopy) {
+      navigator.clipboard
+        .writeText(textToCopy)
+        .then(() => {
+          alert("Text copied to clipboard!");
+        })
+        .catch((err) => {
+          console.error("Error copying text:", err);
+        });
+    } else {
+      alert("No text to copy!");
+    }
   });
 
   // Handle upload button click

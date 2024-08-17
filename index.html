@@ -44,18 +44,26 @@
       <div>
         <img id="capturedImage" alt="Captured Image" />
       </div>
-      <div>
-        <button id="capture" class="btn-primary" style="margin-top: 10px">
+      <div style="position: relative; display: flex; top: -105px">
+        <button
+          id="capture"
+          class="btn-primary"
+          style="margin-top: 10px; margin-left: 5px"
+        >
           <i class="fas fa-camera"></i> Capture
         </button>
         <button
           id="re-take"
           class="btn-primary"
-          style="margin-top: 10px; display: none"
+          style="margin-top: 10px; display: none; margin-left: 5px"
         >
           <i class="fas fa-camera"></i> Re-take
         </button>
-        <button id="process_btn" class="btn-warning" style="margin-top: 10px">
+        <button
+          id="process_btn"
+          class="btn-warning"
+          style="margin-top: 10px; margin-left: 5px"
+        >
           <i id="rocket" class="fas fa-rocket"></i> Process
         </button>
       </div>
@@ -67,13 +75,14 @@
           style="width: 320px; height: 220px"
         ></textarea>
       </div>
-      <button
-        id="upload"
-        style="margin-top: 10px; display: none"
-        class="btn-primary"
-      >
-        <i class="fas fa-arrow-up-from-bracket"></i> Upload to Sheet
-      </button>
+      <div style="display: flex">
+        <button id="upload" style="display: none" class="btn-primary">
+          <i class="fas fa-arrow-up-from-bracket"></i> Upload
+        </button>
+        <button id="copy-button" class="btn-primary" style="display: none">
+          <i class="fas fa-copy"></i> Copy
+        </button>
+      </div>
     </div>
     <audio id="click-sound" src="assets/camera-capture.mp3"></audio>
     <script src="script.js"></script>
