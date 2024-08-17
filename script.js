@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initialize the camera
-  // switchCamera();
+  switchCamera();
 
   // Event listener for the toggle camera button
   // toggleCameraButton.addEventListener("click", switchCamera);
