@@ -43,9 +43,12 @@
       >
         Switch Camera
       </button> -->
-      <button id="capture" class="btn-primary" style="margin-top: 10px">
-        <i class="fas fa-camera"></i> Capture
-      </button>
+      <div>
+        <button id="capture" class="btn-primary" style="margin-top: 10px">
+          <i class="fas fa-camera"></i> Capture
+        </button>
+      </div>
+
       <canvas
         id="canvas"
         width="300"
@@ -55,6 +58,19 @@
       <div>
         <p>Captured Image:</p>
         <img id="capturedImage" alt="Captured Image" />
+        <div class="controls">
+          <label for="contrast-slider">Adjust Contrast:</label>
+          <input
+            type="range"
+            id="contrast-slider"
+            min="50"
+            max="200"
+            value="100"
+          />
+        </div>
+        <button id="process_btn" class="btn-warning" style="margin-top: 10px">
+          <i class="fas fa-rocket"></i> Process
+        </button>
       </div>
       <div>
         <p>Extracted Text:</p>
@@ -68,7 +84,7 @@
         style="margin-top: 10px; display: none"
         class="btn-primary"
       >
-        <i class="fas fa-upload"></i> Upload to Sheet
+        <i class="fas fa-arrow-up-from-bracket"></i> Upload to Sheet
       </button>
       <div id="loading">
         <div class="spinner"></div>

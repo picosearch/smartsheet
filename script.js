@@ -7,16 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const capturedImageElement = document.getElementById("capturedImage");
   const extractedTextElement = document.getElementById("extractedText");
   const loadingElement = document.getElementById("loading");
-  const toggleCameraButton = document.getElementById("toggleCamera");
   const clickSound = document.getElementById("click-sound");
-  let usingFrontCamera = false;
+  const processButton = document.getElementById("process_btn");
+  const uploadButton = document.getElementById("upload");
+  const contrastSlider = document.getElementById("contrast-slider");
+
+  // Adjust contrast of the captured image
+  contrastSlider.addEventListener("input", () => {
+    const contrastValue = contrastSlider.value;
+    capturedImage.style.filter = `contrast(${contrastValue}%)`;
+  });
 
   // Constraints for the camera
   const constraints = {
     video: {
-      facingMode: { exact: "environment" }, // Default to rear-facing camera
-      width: { ideal: 1920 },
-      height: { ideal: 1080 }
+      facingMode: { exact: "environment" } // Default to rear-facing camera
     }
   };
 
@@ -24,37 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function playClickSound() {
     clickSound.play();
   }
-
-  const switchCamera = () => {
-    console.log("switchCamera ...");
-    usingFrontCamera = usingFrontCamera;
-    constraints.video.facingMode = usingFrontCamera
-      ? "user"
-      : { exact: "environment" };
-    console.log("constraints ...", constraints);
-    // Stop the current video stream
-    // if (stream) {
-    //   stream.getTracks().forEach((track) => track.stop());
-    // }
-
-    // Start the new stream with the updated constraints
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((newStream) => {
-        stream = newStream;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((err) => {
-        console.error("Error accessing camera: ", err);
-      });
-  };
-
-  // Initialize the camera
-  // switchCamera();
-
-  // Event listener for the toggle camera button
-  // toggleCameraButton.addEventListener("click", switchCamera);
 
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
@@ -70,14 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Capture the image from the video stream and use Tesseract.js to extract text
   captureButton.addEventListener("click", () => {
     playClickSound();
-    // Show loading spinner
-    loadingElement.style.display = "block";
-
     // Draw the video frame onto the canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     // Apply basic contrast enhancement
-    context.filter = "contrast(150%)";
+    // context.filter = "contrast(170%)";
     context.drawImage(canvas, 0, 0);
 
     // Convert the canvas image to a data URL
@@ -86,8 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Display the captured image on the page
     capturedImageElement.src = imageData;
     capturedImageElement.style.display = "block";
+    processButton.style.display = "block";
+  });
 
-    // let newImageData = processByOpenCV(capturedImageElement);
+  processButton.addEventListener("click", () => {
+    // Show loading spinner
+    loadingElement.style.display = "block";
 
     // Use Tesseract.js to extract text from the image
     Tesseract.recognize(capturedImageElement, "eng", {
@@ -96,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(({ data: { text } }) => {
         console.log("Extracted Text: ", text);
         extractedTextElement.textContent = text || "No text found.";
+        uploadButton.style.display = "block"; // Show upload button
       })
       .catch((err) => {
         console.error("Error during text recognition: ", err);
@@ -105,6 +81,38 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hide loading spinner
         loadingElement.style.display = "none";
       });
+  });
+
+  // Handle upload button click
+  uploadButton.addEventListener("click", () => {
+    const text = extractedTextElement.textContent;
+
+    if (
+      text &&
+      text.trim() !== "No text found." &&
+      text.trim() !== "Error during text recognition."
+    ) {
+      // Perform API request to upload the data
+      fetch("https://smartsheetdata.glitch.me/upload", {
+        // Replace with your API endpoint
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          alert("Text uploaded successfully!");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Error uploading text.");
+        });
+    } else {
+      alert("No text available for upload.");
+    }
   });
 });
 
@@ -157,13 +165,6 @@ function processByOpenCV(capturedImage) {
 document.addEventListener("DOMContentLoaded", () => {
   // Get references to HTML elements
   const video = document.getElementById("video");
-  const captureButton = document.getElementById("capture");
-  const canvas = document.getElementById("canvas");
-  const context = canvas.getContext("2d");
-  const capturedImageElement = document.getElementById("capturedImage");
-  const extractedTextElement = document.getElementById("extractedText");
-  const loadingElement = document.getElementById("loading");
-  const uploadButton = document.getElementById("upload");
 
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
@@ -175,70 +176,4 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((err) => {
       console.error("Error accessing camera: ", err);
     });
-
-  // Capture the image from the video stream and use Tesseract.js to extract text
-  captureButton.addEventListener("click", () => {
-    // Show loading spinner
-    loadingElement.style.display = "block";
-
-    // Draw the video frame onto the canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Convert the canvas image to a data URL
-    const imageData = canvas.toDataURL("image/png");
-
-    // Display the captured image on the page
-    capturedImageElement.src = imageData;
-    capturedImageElement.style.display = "block";
-
-    // Use Tesseract.js to extract text from the image
-    Tesseract.recognize(imageData, "eng", {
-      logger: (m) => console.log(m) // Log progress
-    })
-      .then(({ data: { text } }) => {
-        console.log("Extracted Text: ", text);
-        extractedTextElement.textContent = text || "No text found.";
-        uploadButton.style.display = "block"; // Show upload button
-      })
-      .catch((err) => {
-        console.error("Error during text recognition: ", err);
-        extractedTextElement.textContent = "Error during text recognition.";
-      })
-      .finally(() => {
-        // Hide loading spinner
-        loadingElement.style.display = "none";
-      });
-  });
-
-  // Handle upload button click
-  uploadButton.addEventListener("click", () => {
-    const text = extractedTextElement.textContent;
-
-    if (
-      text &&
-      text.trim() !== "No text found." &&
-      text.trim() !== "Error during text recognition."
-    ) {
-      // Perform API request to upload the data
-      fetch("https://smartsheetdata.glitch.me/upload", {
-        // Replace with your API endpoint
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text })
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          alert("Text uploaded successfully!");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("Error uploading text.");
-        });
-    } else {
-      alert("No text available for upload.");
-    }
-  });
 });
