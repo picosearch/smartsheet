@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initialize the camera
-  switchCamera();
+  // switchCamera();
 
   // Event listener for the toggle camera button
   // toggleCameraButton.addEventListener("click", switchCamera);
@@ -80,10 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     capturedImageElement.src = imageData;
     capturedImageElement.style.display = "block";
 
-    let newImageData = processByOpenCV(capturedImageElement);
+    // let newImageData = processByOpenCV(capturedImageElement);
 
     // Use Tesseract.js to extract text from the image
-    Tesseract.recognize(newImageData, "eng", {
+    Tesseract.recognize(capturedImageElement, "eng", {
       logger: (m) => console.log(m) // Log progress
     })
       .then(({ data: { text } }) => {
