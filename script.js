@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const uploadButton = document.getElementById("upload");
   const rocketIcon = document.getElementById("rocket");
   const copyButton = document.getElementById("copy");
+  const resultPanel = document.getElementById("result-panel");
+  const uploadIcon = document.getElementById("upload-icon");
 
   // Constraints for the camera
   const constraints = {
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     retakeButton.style.display = "none";
     capturedImageElement.style.display = "none";
     copyButton.style.display = "none";
+    resultPanel.style.display = "none";
   });
   // Capture the image from the video stream and use Tesseract.js to extract text
   captureButton.addEventListener("click", () => {
@@ -62,7 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
     captureButton.style.display = "none";
     retakeButton.style.display = "block";
     capturedImageElement.style.display = "block";
-    copyButton.style.display = "block";
+
+    resultPanel.style.display = "block";
     processButton.style.display = "block";
   });
 
@@ -79,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Extracted Text: ", text);
         extractedTextElement.textContent = text || "No text found.";
         uploadButton.style.display = "block"; // Show upload button
+        copyButton.style.display = "block";
       })
       .catch((err) => {
         console.error("Error during text recognition: ", err);
@@ -111,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Handle upload button click
   uploadButton.addEventListener("click", () => {
+    uploadIcon.className = "fas fa-spin fa-arrows-rotate";
     const text = extractedTextElement.textContent;
 
     if (
@@ -131,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
           console.log("Success:", data);
           alert("Text uploaded successfully!");
+          uploadIcon.className = "fas fa-arrow-up-from-bracket";
         })
         .catch((error) => {
           console.error("Error:", error);

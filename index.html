@@ -62,34 +62,36 @@
         <button
           id="process_btn"
           class="btn-warning"
-          style="margin-top: 10px; margin-left: 5px"
+          style="margin-top: 10px; display: none; margin-left: 5px"
         >
           <i id="rocket" class="fas fa-rocket"></i> Process
         </button>
       </div>
 
-      <div>
-        <p>Extracted Text:</p>
-        <textarea
-          id="extractedText"
-          style="width: 320px; height: 220px"
-        ></textarea>
-      </div>
-      <div style="display: flex">
-        <button
-          id="upload"
-          class="btn-primary"
-          style="margin-top: 10px; margin-left: 5px"
-        >
-          <i class="fas fa-arrow-up-from-bracket"></i> Upload
-        </button>
-        <button
-          id="copy"
-          class="btn-primary"
-          style="margin-top: 10px; margin-left: 5px"
-        >
-          <i class="fas fa-copy"></i> Copy
-        </button>
+      <div id="result-panel" style="display: none">
+        <div>
+          <p>Extracted Text:</p>
+          <textarea
+            id="extractedText"
+            style="width: 320px; height: 220px"
+          ></textarea>
+        </div>
+        <div style="display: flex">
+          <button
+            id="upload"
+            class="btn-primary"
+            style="margin-top: 10px; display: none; margin-left: 5px"
+          >
+            <i id="upload-icon" class="fas fa-arrow-up-from-bracket"></i> Upload
+          </button>
+          <button
+            id="copy"
+            class="btn-primary"
+            style="margin-top: 10px; display: none; margin-left: 5px"
+          >
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
       </div>
     </div>
     <audio id="click-sound" src="assets/camera-capture.mp3"></audio>
