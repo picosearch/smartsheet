@@ -35,12 +35,6 @@
     <h1>SmartSheet</h1>
     <div class="container">
       <video id="video" width="100%" height="auto" autoplay></video>
-      <div>
-        <button id="capture" class="btn-primary" style="margin-top: 10px">
-          <i class="fas fa-camera"></i> Capture
-        </button>
-      </div>
-
       <canvas
         id="canvas"
         width="600"
@@ -48,22 +42,24 @@
         style="display: none"
       ></canvas>
       <div>
-        <p>Captured Image:</p>
         <img id="capturedImage" alt="Captured Image" />
-        <!-- <div class="controls">
-          <label for="contrast-slider">Adjust Contrast:</label>
-          <input
-            type="range"
-            id="contrast-slider"
-            min="50"
-            max="200"
-            value="100"
-          />
-        </div> -->
+      </div>
+      <div>
+        <button id="capture" class="btn-primary" style="margin-top: 10px">
+          <i class="fas fa-camera"></i> Capture
+        </button>
+        <button
+          id="re-take"
+          class="btn-primary"
+          style="margin-top: 10px; display: none"
+        >
+          <i class="fas fa-camera"></i> Re-take
+        </button>
         <button id="process_btn" class="btn-warning" style="margin-top: 10px">
           <i id="rocket" class="fas fa-rocket"></i> Process
         </button>
       </div>
+
       <div>
         <p>Extracted Text:</p>
         <textarea

@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get references to HTML elements
   const video = document.getElementById("video");
   const captureButton = document.getElementById("capture");
+  const retakeButton = document.getElementById("re-take");
   const canvas = document.getElementById("canvas");
   const context = canvas.getContext("2d");
   const capturedImageElement = document.getElementById("capturedImage");
@@ -10,13 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const processButton = document.getElementById("process_btn");
   const uploadButton = document.getElementById("upload");
   const rocketIcon = document.getElementById("rocket");
-  // const contrastSlider = document.getElementById("contrast-slider");
-
-  // Adjust contrast of the captured image
-  // contrastSlider.addEventListener("input", () => {
-  //   const contrastValue = contrastSlider.value;
-  //   capturedImage.style.filter = `contrast(${contrastValue}%)`;
-  // });
 
   // Constraints for the camera
   const constraints = {
@@ -41,6 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error accessing camera: ", err);
     });
 
+  retakeButton.addEventListener("click", () => {
+    video.style.display = "block";
+    captureButton.style.display = "block";
+    retakeButton.style.display = "none";
+    capturedImageElement.style.display = "none";
+  });
   // Capture the image from the video stream and use Tesseract.js to extract text
   captureButton.addEventListener("click", () => {
     playClickSound();
@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Display the captured image on the page
     capturedImageElement.src = imageData;
+    video.style.display = "none";
+    captureButton.style.display = "none";
+    retakeButton.style.display = "block";
     capturedImageElement.style.display = "block";
     processButton.style.display = "block";
   });
