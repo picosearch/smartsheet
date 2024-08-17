@@ -9,9 +9,7 @@ const uploadButton = document.getElementById("upload-button");
 navigator.mediaDevices
   .getUserMedia({
     video: {
-      facingMode: { exact: "environment" }, // Use rear camera
-      width: { ideal: 1920 },
-      height: { ideal: 1080 }
+      facingMode: { exact: "environment" } // Use rear camera
     }
   })
   .then((stream) => {
