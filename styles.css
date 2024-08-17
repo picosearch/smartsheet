@@ -65,6 +65,20 @@ body {
   border-radius: 4px;
 }
 
+#copy {
+  background-color: #d45f0b; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 #upload:hover {
   background-color: #45a049; /* Darker green */
 }
@@ -99,6 +113,7 @@ video {
   height: auto;
   border-radius: 8px;
   margin-bottom: 20px;
+  border: 1px solid #ccc;
 }
 
 #captured-image {
@@ -106,6 +121,7 @@ video {
   margin-bottom: 20px;
   display: none;
   border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 textarea {

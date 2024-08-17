@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const processButton = document.getElementById("process_btn");
   const uploadButton = document.getElementById("upload");
   const rocketIcon = document.getElementById("rocket");
-  const copyButton = document.getElementById("copy-button");
+  const copyButton = document.getElementById("copy");
 
   // Constraints for the camera
   const constraints = {
