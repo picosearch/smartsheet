@@ -13,7 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Constraints for the camera
   const constraints = {
     video: {
-      facingMode: { exact: "environment" } // Default to rear-facing camera
+      facingMode: { exact: "environment" }, // Default to rear-facing camera
+      width: { ideal: 1920 },
+      height: { ideal: 1080 }
     }
   };
 
@@ -46,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // switchCamera();
 
   // Event listener for the toggle camera button
-  toggleCameraButton.addEventListener("click", switchCamera);
+  // toggleCameraButton.addEventListener("click", switchCamera);
 
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
@@ -67,6 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Draw the video frame onto the canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+    // Apply basic contrast enhancement
+    context.filter = "contrast(150%)";
+    context.drawImage(canvas, 0, 0);
+
     // Convert the canvas image to a data URL
     const imageData = canvas.toDataURL("image/png");
 
@@ -74,8 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     capturedImageElement.src = imageData;
     capturedImageElement.style.display = "block";
 
+    let newImageData = processByOpenCV(capturedImageElement);
+
     // Use Tesseract.js to extract text from the image
-    Tesseract.recognize(imageData, "eng", {
+    Tesseract.recognize(newImageData, "eng", {
       logger: (m) => console.log(m) // Log progress
     })
       .then(({ data: { text } }) => {
@@ -92,6 +100,52 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 });
+
+function processByOpenCV(capturedImage) {
+  const src = cv.imread(capturedImage);
+  const gray = new cv.Mat();
+  const blurred = new cv.Mat();
+  const edged = new cv.Mat();
+  const dst = new cv.Mat();
+
+  try {
+    // Convert to grayscale
+    cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
+
+    // Apply Gaussian Blur to reduce noise and improve edge detection
+    const ksize = new cv.Size(5, 5);
+    cv.GaussianBlur(gray, blurred, ksize, 0, 0, cv.BORDER_DEFAULT);
+
+    // Perform Canny edge detection
+    cv.Canny(blurred, edged, 75, 200);
+
+    // Apply adaptive thresholding to enhance text clarity
+    cv.adaptiveThreshold(
+      edged,
+      dst,
+      255,
+      cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+      cv.THRESH_BINARY,
+      11,
+      2
+    );
+
+    // Convert the processed image back to the canvas
+    cv.imshow(canvas, dst);
+
+    // Prepare the image for OCR
+    return canvas.toDataURL("image/png");
+  } catch (error) {
+    console.error("Error processing the image:", error);
+  } finally {
+    // Clean up
+    src.delete();
+    gray.delete();
+    blurred.delete();
+    edged.delete();
+    dst.delete();
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get references to HTML elements

@@ -6,6 +6,12 @@
     <title>Capture Image and Extract Text</title>
     <!-- Include the latest version of Tesseract.js -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <script
+      async
+      src="https://docs.opencv.org/master/opencv.js"
+      type="text/javascript"
+    ></script>
+
     <!-- Material-UI Core -->
     <link
       rel="stylesheet"
@@ -24,13 +30,13 @@
     <div class="container">
       <video id="video" width="100%" height="auto" autoplay></video>
       <!-- Camera Toggle Button -->
-      <button
+      <!-- <button
         id="toggleCamera"
         style="margin-top: 10px"
         class="button button-primary"
       >
         Switch Camera
-      </button>
+      </button> -->
       <button id="capture" style="margin-top: 10px">Capture</button>
       <canvas
         id="canvas"

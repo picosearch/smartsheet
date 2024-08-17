@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper Scan Mode</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="camera-card">
+        <video id="video" autoplay></video>
+        <canvas id="canvas" style="display: none"></canvas>
+        <img id="captured-image" alt="Captured Image" />
+        <button id="capture-button" class="btn-primary">Capture Image</button>
+        <button id="process-button" class="btn-primary" disabled>
+          Process Image
+        </button>
+      </div>
+      <div class="results-card">
+        <textarea
+          id="extracted-text"
+          placeholder="Extracted text will appear here..."
+        ></textarea>
+        <button id="upload-button" class="btn-primary" disabled>
+          Upload to Google Sheets
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
