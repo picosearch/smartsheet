@@ -22,6 +22,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/material-ui.min.css"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -38,7 +44,7 @@
         Switch Camera
       </button> -->
       <button id="capture" class="btn-primary" style="margin-top: 10px">
-        Capture
+        <i class="fas fa-camera"></i> Capture
       </button>
       <canvas
         id="canvas"
@@ -62,14 +68,14 @@
         style="margin-top: 10px; display: none"
         class="btn-primary"
       >
-        Upload to Sheet
+        <i class="fas fa-upload"></i> Upload to Sheet
       </button>
       <div id="loading">
         <div class="spinner"></div>
         <p>Processing...</p>
       </div>
     </div>
-
+    <audio id="click-sound" src="assets/camera-capture.mp3"></audio>
     <!-- Include your custom JavaScript file -->
     <script src="script.js"></script>
   </body>

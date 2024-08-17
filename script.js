@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const extractedTextElement = document.getElementById("extractedText");
   const loadingElement = document.getElementById("loading");
   const toggleCameraButton = document.getElementById("toggleCamera");
+  const clickSound = document.getElementById("click-sound");
   let usingFrontCamera = false;
 
   // Constraints for the camera
@@ -18,6 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
       height: { ideal: 1080 }
     }
   };
+
+  // Play click sound
+  function playClickSound() {
+    clickSound.play();
+  }
 
   const switchCamera = () => {
     console.log("switchCamera ...");
@@ -63,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Capture the image from the video stream and use Tesseract.js to extract text
   captureButton.addEventListener("click", () => {
+    playClickSound();
     // Show loading spinner
     loadingElement.style.display = "block";
 
