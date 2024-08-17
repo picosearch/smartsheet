@@ -6,6 +6,12 @@
     <title>Capture Image and Extract Text</title>
     <!-- Include the latest version of Tesseract.js -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <script
+      async
+      src="https://docs.opencv.org/master/opencv.js"
+      type="text/javascript"
+    ></script>
+
     <!-- Material-UI Core -->
     <link
       rel="stylesheet"
@@ -16,6 +22,12 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/4.12.4/material-ui.min.css"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -23,42 +35,66 @@
     <h1>SmartSheet</h1>
     <div class="container">
       <video id="video" width="100%" height="auto" autoplay></video>
-      <!-- Camera Toggle Button -->
-      <button
-        id="toggleCamera"
-        style="margin-top: 10px"
-        class="button button-primary"
-      >
-        Switch Camera
-      </button>
-      <button id="capture" style="margin-top: 10px">Capture</button>
       <canvas
         id="canvas"
-        width="300"
-        height="300"
+        width="600"
+        height="700"
         style="display: none"
       ></canvas>
       <div>
-        <p>Captured Image:</p>
         <img id="capturedImage" alt="Captured Image" />
       </div>
-      <div>
-        <p>Extracted Text:</p>
-        <textarea
-          id="extractedText"
-          style="width: 320px; height: 220px"
-        ></textarea>
+      <div style="position: relative; display: flex; top: -105px">
+        <button
+          id="capture"
+          class="btn-primary"
+          style="margin-top: 10px; margin-left: 5px"
+        >
+          <i class="fas fa-camera"></i> Capture
+        </button>
+        <button
+          id="re-take"
+          class="btn-primary"
+          style="margin-top: 10px; display: none; margin-left: 5px"
+        >
+          <i class="fas fa-camera"></i> Re-take
+        </button>
+        <button
+          id="process_btn"
+          class="btn-warning"
+          style="margin-top: 10px; display: none; margin-left: 5px"
+        >
+          <i id="rocket" class="fas fa-rocket"></i> Process
+        </button>
       </div>
-      <button id="upload" style="margin-top: 10px; display: none">
-        Upload to Sheet
-      </button>
-      <div id="loading">
-        <div class="spinner"></div>
-        <p>Processing...</p>
+
+      <div id="result-panel" style="display: none">
+        <div>
+          <p>Extracted Text:</p>
+          <textarea
+            id="extractedText"
+            style="width: 320px; height: 220px"
+          ></textarea>
+        </div>
+        <div style="display: flex">
+          <button
+            id="upload"
+            class="btn-primary"
+            style="margin-top: 10px; display: none; margin-left: 5px"
+          >
+            <i id="upload-icon" class="fas fa-arrow-up-from-bracket"></i> Upload
+          </button>
+          <button
+            id="copy"
+            class="btn-primary"
+            style="margin-top: 10px; display: none; margin-left: 5px"
+          >
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
       </div>
     </div>
-
-    <!-- Include your custom JavaScript file -->
+    <audio id="click-sound" src="assets/camera-capture.mp3"></audio>
     <script src="script.js"></script>
   </body>
 </html>
