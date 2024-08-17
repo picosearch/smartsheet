@@ -28,7 +28,7 @@ captureButton.addEventListener("click", () => {
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // Apply basic contrast enhancement
-  context.filter = "contrast(150%)";
+  // context.filter = "contrast(150%)";
   context.drawImage(canvas, 0, 0);
 
   const imageDataUrl = canvas.toDataURL("image/png");
