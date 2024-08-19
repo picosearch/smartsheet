@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyButton = document.getElementById("copy");
   const resultPanel = document.getElementById("result-panel");
   const uploadIcon = document.getElementById("upload-icon");
+  const snackbarElement = document.getElementById("snackbar");
 
   // Constraints for the camera
   const constraints = {
@@ -78,6 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
     processButton.style.display = "block";
   });
 
+  function showNotification(msg) {
+    snackbarElement.textContent = msg;
+    snackbarElement.className = "show";
+    setTimeout(function () {
+      snackbarElement.className = snackbarElement.className.replace("show", "");
+    }, 2000);
+  }
+
   processButton.addEventListener("click", () => {
     // Show loading spinner
     // loadingElement.style.display = "block";
@@ -112,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
       navigator.clipboard
         .writeText(textToCopy)
         .then(() => {
-          alert("Text copied to clipboard!");
+          showNotification("Text copied to clipboard!");
         })
         .catch((err) => {
           console.error("Error copying text:", err);
@@ -144,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          alert("Text uploaded successfully!");
+          showNotification("Text uploaded successfully!");
           uploadIcon.className = "fas fa-arrow-up-from-bracket";
         })
         .catch((error) => {
@@ -152,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Error uploading text.");
         });
     } else {
-      alert("No text available for upload.");
+      showNotification("No text available for upload.");
     }
   });
 });
