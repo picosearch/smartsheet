@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  const constraints_laptop = {
+    video: {
+      facingMode: "user" // Default to rear-facing camera
+    }
+  };
+
   // Play click sound
   function playClickSound() {
     clickSound.play();
@@ -29,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Request access to the camera and stream it to the video element
   navigator.mediaDevices
-    .getUserMedia(constraints)
+    .getUserMedia(isMobile ? constraints : constraints_laptop)
     .then((stream) => {
       video.srcObject = stream;
       video.play();
@@ -194,18 +202,3 @@ function processByOpenCV(capturedImage) {
     dst.delete();
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Get references to HTML elements
-  const video = document.getElementById("video");
-  // Request access to the camera and stream it to the video element
-  navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then((stream) => {
-      video.srcObject = stream;
-      video.play();
-    })
-    .catch((err) => {
-      console.error("Error accessing camera: ", err);
-    });
-});
